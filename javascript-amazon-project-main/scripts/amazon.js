@@ -1,10 +1,11 @@
+/* auto mate the product input...i think you can use .push*/
 let productsHTML = '';
 
 products.forEach((product) => {
     productsHTML += `
         <div class="product-container">
             <div class="product-image-container">
-                <img class="product-image" title="Black and Gray Athletic Cotton Socks - 6 Pairs"
+                <img class="product-image" title="${product.name}"
                 src="${product.image}">
             </div>
 
@@ -21,21 +22,21 @@ products.forEach((product) => {
             </div>
 
             <div class="product-price">
-                $${(product.priceCents / 100).toFixed(2)}
+                $${(product.priceCents / 100).toFixed(2)} 
             </div>
 
             <div class="product-quantity-container">
                 <select title="Select quantity">
-                <option selected value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
+                    <option selected value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
                 </select>
             </div>
 
@@ -46,13 +47,41 @@ products.forEach((product) => {
                 Added
             </div>
 
-            <button class="add-to-cart-button button-primary">
+            <button class="add-to-cart-button button-primary js-add-to-cart"
+            data-product-id = "${product.id}">
                 Add to Cart
             </button>
         </div>`
 })
 
-console.log(productsHTML);
-
 document.querySelector('.js-products-grid').
     innerHTML = productsHTML;
+
+document.querySelectorAll('.js-add-to-cart')
+    .forEach((button) => {
+        button.addEventListener('click', () => {
+            const productId = button.dataset.
+            productId;
+
+            let matchingItem;
+
+            cart.forEach((item) => {
+                if (productId === item.productId) {
+                    matchingItem = item
+                }
+            });
+
+            if (matchingItem) {
+                matchingItem.quantity += 1;
+            } else{
+                cart.push({
+                    productId: productId,
+                    quantity: 1
+                })
+               
+            }
+            console.log (cart);
+          
+        })
+    })
+    
