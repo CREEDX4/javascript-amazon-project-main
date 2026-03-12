@@ -1,5 +1,6 @@
 /* auto mate the product input...i think you can use .push*/
 let productsHTML = '';
+import {cart} from '../data/cart.js';
 
 products.forEach((product) => {
     productsHTML += `
@@ -90,9 +91,6 @@ document.querySelectorAll('.js-add-to-cart')
             document.querySelector('.js-cart-quantity')
                 .innerHTML = cartQuantity;
 
-            console.log(cartQuantity);
-            console.log (cart);
-          
         });
     });
     
