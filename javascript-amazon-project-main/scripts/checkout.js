@@ -4,6 +4,11 @@ import { formatCurrency } from './utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions} from '../data/deliveryOptions.js';
 
+console.log('Checkout script loaded');
+console.log('Cart:', cart);
+console.log('Products:', products);
+console.log('Delivery options:', deliveryOptions);
+
 const today = dayjs();
 const deliveryDate = today.add(7, 'days');
 console.log(deliveryDate.format('dddd, MMMM D'));
@@ -23,8 +28,7 @@ cart.forEach((cartItem) => {
         }
     }); 
 
-const deliveryOptionId = cartItem.
-deliveryOptionId;
+const deliveryOptionId = cartItem.deliveryOptionId;
 
 let deliveryOption;
 
@@ -111,7 +115,7 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
         <input type="radio" title="$9.99 shipping on Monday, June 13"
           ${isChecked ? 'checked' : ''} 
           class="delivery-option-input"
-          name="delivery-option-1">
+          name="delivery-option-${matchingProduct.id}">
         <div>
           <div class="delivery-option-date">
             ${dateString}
@@ -126,6 +130,8 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
 
   return html;
 }
+
+console.log('Cart summary HTML:', cartSummaryHTML);
 
 document.querySelector('.js-order-summary')
     .innerHTML = cartSummaryHTML;
