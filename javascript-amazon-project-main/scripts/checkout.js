@@ -145,7 +145,6 @@ document.querySelectorAll('.js-delete-link')
     });
 
 
-
   });
 
 document.querySelectorAll('.js-delivery-option')
