@@ -1,7 +1,7 @@
 import {cart, removeFromCart, updateDeliveryOption} from '../../data/cart.js';
-import {products} from '../../data/products.js';
+import {products, getProduct} from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
-import {deliveryOptions} from '../../data/deliveryOptions.js';
+import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
 
 console.log('Checkout script loaded');
 console.log('Cart:', cart);
@@ -21,27 +21,23 @@ export function renderOrderSummary(){
   let cartSummaryHTML = '';
 
   cart.forEach((cartItem) => {
-      const productId = cartItem.productId;
+    const productId = cartItem.productId;
 
-      let matchingProduct;
+    const matchingProduct = getProduct(productId);
 
-      products.forEach((product) => {
-          if (product.id === productId) {
-              matchingProduct = product;
-              console.log (matchingProduct);
-
-          }
-      }); 
-
-  const deliveryOptionId = cartItem.deliveryOptionId;
-
-  let deliveryOption;
-
-  deliveryOptions.forEach((option) => {
-    if (option.id === deliveryOptionId) {
-      deliveryOption = option;
+    if (!matchingProduct) {
+      console.warn(`No product found for id: ${productId}`);
+      return;
     }
-  });
+
+    const deliveryOptionId = cartItem.deliveryOptionId;
+
+    let deliveryOption = getDeliveryOption(deliveryOptionId);
+    
+    if (!deliveryOption) {
+      console.error(`Delivery option not found for id: ${deliveryOptionId}`);
+      return;
+    }
 
     const today = new Date();
     const deliveryDate = new Date(today.getTime() + deliveryOption.deliveryDays * 24 * 60 * 60 * 1000);
