@@ -15,7 +15,7 @@ export function renderPaymentSummary() {
     });
 
     const totalBeforeTaxCents  = productPriceCents + shippingPriceCents;
-    const taxCents = totalBeforeTaxCents * 0.1;
+    const taxCents = Math.round(totalBeforeTaxCents * 0.1);
     const totalCents = totalBeforeTaxCents + taxCents;
 
     const paymentSummaryHTML = `
@@ -24,7 +24,7 @@ export function renderPaymentSummary() {
           </div>
 
           <div class="payment-summary-row">
-            <div>Items (3):</div>
+            <div>Items (${cart.length}):</div>
             <div class="payment-summary-money">$${formatCurrency(productPriceCents)}</div>
           </div>
 
@@ -40,7 +40,7 @@ export function renderPaymentSummary() {
 
           <div class="payment-summary-row">
             <div>Estimated tax (10%):</div>
-            <div class="payment-summary-money">$${formatCurrency(taxCents)}}</div>
+            <div class="payment-summary-money">$${formatCurrency(taxCents)}</div>
           </div>
 
           <div class="payment-summary-row total-row">
@@ -55,6 +55,4 @@ export function renderPaymentSummary() {
 
         document.querySelector('.js-payment-summary')
             .innerHTML = paymentSummaryHTML;
-
-        renderPaymentSummary();
 }
