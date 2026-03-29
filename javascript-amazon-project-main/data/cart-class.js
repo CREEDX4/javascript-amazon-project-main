@@ -3,19 +3,20 @@ class Cart {
     cartItems ;
     storedCart ;
     #localStorageKey ;
+    //hash in front means it's a private property
 
     constructor (localStorageKey) {
 
         this.#localStorageKey = localStorageKey;
-        this.loadFromStorage();
+        this.#loadFromStorage();
     }
 
-    loadFromStorage() {
+    #loadFromStorage() {
             
         this.storedCart = null;
 
         try {
-        this.storedCart = JSON.parse(localStorage.getItem(this.localStorageKey));
+        this.storedCart = JSON.parse(localStorage.getItem(this.#localStorageKey));
         } catch (error) {
         console.log('Failed to parse cart from localStorage, resetting to default.', error);
         }
@@ -36,7 +37,7 @@ class Cart {
     }
 
     saveToStorage(){
-        localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+        localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
     }
 
     addToCart(productId) {
